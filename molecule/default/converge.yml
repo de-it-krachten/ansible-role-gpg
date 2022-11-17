@@ -1,0 +1,15 @@
+---
+
+- name: Converge
+  hosts: all
+  become: "yes"
+  vars:
+    gpg_user_name: root
+    gpg_user_realname: root
+    gpg_user_comment: test key
+    gpg_user_email: root@localhost
+    gpg_user_passphrase: Abcd1234
+  tasks:
+    - name: Include role 'ansible-role-gpg'
+      ansible.builtin.include_role:
+        name: ansible-role-gpg

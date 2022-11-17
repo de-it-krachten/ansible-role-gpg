@@ -1,0 +1,10 @@
+---
+
+- name: Install passwordstore
+  ansible.builtin.include_tasks:
+    file: install.yml
+
+- name: Create/import GPG keys
+  ansible.builtin.include_tasks:
+    file: key.yml
+  when: gpg_user_name is defined and gpg_user_name | length > 0
