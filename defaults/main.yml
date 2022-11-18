@@ -1,0 +1,17 @@
+---
+
+# List of packages
+gpg_packages:
+  - gpg
+
+gpg_userkey:
+  key:
+    type: "RSA"
+    length: "4096"
+  subkey:
+    type: "RSA"
+    length: "2048"
+  name:
+    real: "{{ gpg_user_realname }}"
+    comment: "{{ gpg_user_comment }}"
+    email: "{{ gpg_user_email }}"
