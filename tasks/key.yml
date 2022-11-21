@@ -12,20 +12,14 @@
   when: gpg_home is undefined
   block:
 
-    - name: Get home-directory for remote user
-      ansible.builtin.shell: >
-        getent passwd {{ gpg_user_name }} | cut -d: -f6
-      changed_when: false
-      register: user_home
-
     - name: Fail if none is found
       ansible.builtin.fail:
         msg: "Unable to find home-directory for '{{ gpg_user_name }}'"
-      when: user_home.stdout | length == 0
+      when: ansible_local['users_ext'][gpg_user_name]['home'] is undefined
 
     - name: Create GPG directory
       ansible.builtin.file:
-        path: "{{ user_home.stdout }}/.gnupg"
+        path: "{{ ansible_local['users_ext'][gpg_user_name]['home'] }}/.gnupg"
         state: directory
         owner: "{{ gpg_user_name }}"
         group: "{{ gpg_user_name }}"
@@ -33,7 +27,7 @@
 
     - name: Define gpg_home
       ansible.builtin.set_fact:
-        gpg_home: "{{ user_home.stdout }}/.gnupg"
+        gpg_home: "{{ ansible_local['users_ext'][gpg_user_name]['home'] }}/.gnupg"
 
 - name: Get all GPG keys
   ansible.builtin.command: gpg --list-keys
@@ -41,6 +35,8 @@
   become: yes
   become_user: "{{ gpg_user_name }}"
   register: _gpg_keys
+  environment:
+    GNUPGHOME: "{{ gpg_home }}"
 
 - name: Create GPG key
   become: yes
@@ -48,6 +44,8 @@
   when:
     - gpg_user_key is undefined
     - gpg_user_email not in _gpg_keys.stdout
+  environment:
+    GNUPGHOME: "{{ gpg_home }}"
   block:
 
     - name: Create GPG input file
@@ -73,6 +71,8 @@
   when:
     - gpg_user_key is defined
     - gpg_user_email not in _gpg_keys.stdout
+  environment:
+    GNUPGHOME: "{{ gpg_home }}"
   block:
 
     - name: Copy key pair
@@ -84,8 +84,9 @@
         - "{{ gpg_user_key }}.sec"
         - "{{ gpg_user_key }}.pub"
 
-    - name: Retrieve signature from key
+    - name: Retrieve signature from key  # noqa no-free-form
       ansible.builtin.shell: |
+        set -o pipefail
         gpg --show-keys --with-colons {{ gpg_home }}/{{ gpg_user_key }}.sec | \
           awk -F: '$1=="fpr" {print $10}' | head -1
       args:
@@ -103,7 +104,7 @@
       # when: gpg_user_email not in _gpg_keys.stdout
       when: __gpg_signature.stdout not in _gpg_keys.stdout
 
-- name: Retrieve trust level
+- name: Retrieve trust level  # noqa no-free-form
   ansible.builtin.shell: |
     set -o pipefail
     key=`gpg --list-keys --with-colons {{ gpg_user_email }} | awk -F: '/pub:/ {print $5}'`
@@ -115,15 +116,19 @@
   failed_when: false
   changed_when: false
   register: _gpg_trust
+  environment:
+    GNUPGHOME: "{{ gpg_home }}"
 
 - name: Show current trust level
   ansible.builtin.debug:
     msg: "Trust level : {{ _gpg_trust.stdout }}"
 
-- name: Trust GPG key ultimately
+- name: Trust GPG key ultimately  # noqa no-free-form
   ansible.builtin.shell: |
     set -o pipefail
     echo -e "5\ny\n" | gpg --batch --command-fd 0 --expert --edit-key {{ gpg_user_email }} trust
   args:
     executable: /bin/bash
+  environment:
+    GNUPGHOME: "{{ gpg_home }}"
   when: _gpg_trust.rc != 0
