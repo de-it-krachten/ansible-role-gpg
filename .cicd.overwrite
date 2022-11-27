@@ -8,6 +8,13 @@ generic:
     Installs gpg and manage keys
   collections: []
 
+# Dependencies
+dependencies:
+  roles:
+    - facts
+  collections: []
+
+# Molecule
 molecule:
   requirements:
     roles_extra: []

@@ -1,0 +1,6 @@
+---
+
+# List of packages
+gpg_packages:
+  - gpg
+  - gpg-agent

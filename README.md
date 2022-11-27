@@ -10,7 +10,7 @@ Installs gpg and manage keys
 ## Dependencies
 
 #### Roles
-None
+- facts
 
 #### Collections
 - community.general
@@ -43,21 +43,33 @@ Note:
 ## Role Variables
 ### defaults/main.yml
 <pre><code>
+# GPG home directory
+# gpg_home: $HOME/gnupg
+
 # List of packages
 gpg_packages:
   - gpg
 
+# Key settings
 gpg_userkey:
   key:
     type: "RSA"
     length: "4096"
   subkey:
-    type: "default"
+    type: "RSA"
     length: "2048"
   name:
     real: "{{ gpg_user_realname }}"
     comment: "{{ gpg_user_comment }}"
     email: "{{ gpg_user_email }}"
+</pre></code>
+
+### defaults/family-Alpine.yml
+<pre><code>
+# List of packages
+gpg_packages:
+  - gpg
+  - gpg-agent
 </pre></code>
 
 

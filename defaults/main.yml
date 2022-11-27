@@ -1,9 +1,13 @@
 ---
 
+# GPG home directory
+# gpg_home: $HOME/gnupg
+
 # List of packages
 gpg_packages:
   - gpg
 
+# Key settings
 gpg_userkey:
   key:
     type: "RSA"

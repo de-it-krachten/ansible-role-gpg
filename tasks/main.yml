@@ -1,5 +1,9 @@
 ---
 
+- name: Load variables based on OS type
+  ansible.builtin.include_tasks:
+    file: vars.yml
+
 - name: Install passwordstore
   ansible.builtin.include_tasks:
     file: install.yml
