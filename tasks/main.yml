@@ -4,7 +4,7 @@
   ansible.builtin.include_tasks:
     file: vars.yml
 
-- name: Install passwordstore
+- name: Install GPG
   ansible.builtin.include_tasks:
     file: install.yml
 
