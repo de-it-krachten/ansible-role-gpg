@@ -1,0 +1,39 @@
+---
+
+- name: Assertions
+  ansible.builtin.assert:
+    that:
+      - gpg_user_name is defined
+      - gpg_recipient is defined
+      - gpg_key is defined
+
+- name: Get all GPG keys
+  ansible.builtin.command: gpg --list-keys
+  changed_when: false
+  become: no
+  register: _gpg_keys
+
+- name: Import GPG public key
+  when: _gpg_keys.stdout is not search(gpg_recipient)
+  become: yes
+  become_user: "{{ gpg_user_name }}"
+  block:
+
+    - name: Create temporary file
+      ansible.builtin.tempfile:
+      register: __tempfile
+
+    - name: Save GPG key to disk
+      ansible.builtin.copy:
+        content: "{{ gpg_key }}"
+        dest: "{{ __tempfile.path }}"
+        mode: "0600"
+
+    - name: Import GPG key
+      ansible.builtin.command: gpg --import {{ __tempfile.path }}
+      changed_when: true
+
+    - name: Delete temporary file
+      ansible.builtin.file:
+        path: "{{ __tempfile.path }}"
+        state: absent
