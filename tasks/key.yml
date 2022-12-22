@@ -8,26 +8,31 @@
       - gpg_user_comment is defined and gpg_user_comment | length > 0
       - gpg_user_email is defined and gpg_user_email | length > 0
 
-- name: Create GPG directory
+- name: Define gpg_home location
   when: gpg_home is undefined
   block:
+
+    - name: Get home-directory for {{ gpg_user_name }}
+      ansible.builtin.set_fact:
+        gpg_home: "{{ ( '~' + gpg_user_name ) | expanduser }}/.gnupg"
 
     - name: Fail if none is found
       ansible.builtin.fail:
         msg: "Unable to find home-directory for '{{ gpg_user_name }}'"
-      when: ansible_local['users_ext'][gpg_user_name]['home'] is undefined
+      when: gpg_home is search('^~')
 
-    - name: Create GPG directory
-      ansible.builtin.file:
-        path: "{{ ansible_local['users_ext'][gpg_user_name]['home'] }}/.gnupg"
-        state: directory
-        owner: "{{ gpg_user_name }}"
-        group: "{{ gpg_user_name }}"
-        mode: "0700"
-
-    - name: Define gpg_home
-      ansible.builtin.set_fact:
-        gpg_home: "{{ ansible_local['users_ext'][gpg_user_name]['home'] }}/.gnupg"
+- name: Create GPG directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    # owner: "{{ gpg_user_name }}"
+    # group: "{{ gpg_user_name }}"
+    mode: "0700"
+  become: yes
+  become_user: "{{ gpg_user_name }}"
+  loop:
+    - "{{ gpg_home }}"
+    - "{{ gpg_home }}/private-keys-v1.d"
 
 - name: Get all GPG keys
   ansible.builtin.command: gpg --list-keys
@@ -116,6 +121,8 @@
   failed_when: false
   changed_when: false
   register: _gpg_trust
+  become: yes
+  become_user: "{{ gpg_user_name }}"
   environment:
     GNUPGHOME: "{{ gpg_home }}"
 
@@ -129,6 +136,8 @@
     echo -e "5\ny\n" | gpg --batch --command-fd 0 --expert --edit-key {{ gpg_user_email }} trust
   args:
     executable: /bin/bash
+  become: yes
+  become_user: "{{ gpg_user_name }}"
   environment:
     GNUPGHOME: "{{ gpg_home }}"
   when: _gpg_trust.rc != 0
