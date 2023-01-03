@@ -1,4 +1,4 @@
-{% if gpg_user_passphrase is undefined 0 or gpg_user_passphrase | length == 0 %}
+{% if gpg_user_passphrase is undefined or gpg_user_passphrase | length == 0 %}
 %no-protection
 {% endif %}
 Key-Type:      {{ gpg_userkey.key.type }}
