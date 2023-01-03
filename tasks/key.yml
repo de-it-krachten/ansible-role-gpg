@@ -14,7 +14,7 @@
 
     - name: Get home-directory for {{ gpg_user_name }}
       ansible.builtin.set_fact:
-        gpg_home: "{{ ( '~' + gpg_user_name ) | expanduser }}/.gnupg"
+        gpg_home: "{{ ('~' + gpg_user_name) | expanduser }}/.gnupg"
 
     - name: Fail if none is found
       ansible.builtin.fail:
