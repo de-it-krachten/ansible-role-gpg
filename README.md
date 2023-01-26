@@ -10,7 +10,7 @@ Installs gpg and manage keys
 ## Dependencies
 
 #### Roles
-- facts
+- deitkrachten.facts
 
 #### Collections
 - community.general
