@@ -138,6 +138,7 @@
     executable: /bin/bash
   become: yes
   become_user: "{{ gpg_user_name }}"
+  changed_when: true
   environment:
     GNUPGHOME: "{{ gpg_home }}"
   when: _gpg_trust.rc != 0
