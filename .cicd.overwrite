@@ -11,7 +11,7 @@ generic:
 # Dependencies
 dependencies:
   roles:
-    - facts
+    - deitkrachten.facts
   collections: []
 
 # Molecule

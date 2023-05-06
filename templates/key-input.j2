@@ -1,3 +1,6 @@
+{% if gpg_user_passphrase is undefined or gpg_user_passphrase | length == 0 %}
+%no-protection
+{% endif %}
 Key-Type:      {{ gpg_userkey.key.type }}
 Key-Length:    {{ gpg_userkey.key.length }}
 Subkey-Type:   {{ gpg_userkey.subkey.type }}
@@ -6,4 +9,6 @@ Name-Real:     {{ gpg_userkey.name.real }}
 Name-Comment:  {{ gpg_userkey.name.comment }}
 Name-Email:    {{ gpg_userkey.name.email }}
 Expire-Date:   0
+{% if gpg_user_passphrase is defined and gpg_user_passphrase | length > 0 %}
 Passphrase:    {{ gpg_user_passphrase }}
+{% endif %}
