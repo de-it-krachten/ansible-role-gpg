@@ -1,15 +1,54 @@
 ---
 
+- name: Converge pre playbook
+  ansible.builtin.import_playbook: converge-pre.yml
+  when: molecule_converge_pre is undefined or molecule_converge_pre | bool
+
 - name: Converge
   hosts: all
   become: "yes"
-  vars:
-    gpg_user_name: root
-    gpg_user_realname: root
-    gpg_user_comment: test key
-    gpg_user_email: root@localhost
-    gpg_user_passphrase: Abcd1234
+  roles:
+    - deitkrachten.facts
   tasks:
+
+#    - name: Include role 'ansible-role-gpg'
+#      ansible.builtin.include_role:
+#        name: ansible-role-gpg
+#      vars:
+#        gpg_install: true
+#        gpg_generate_key: true
+#        gpg_import_seckey: false
+#        gpg_import_pubkey: false
+#        gpg_user_name: gpguser1
+#        gpg_user_realname: gpguser1
+#        gpg_user_comment: gpguser1
+#        gpg_user_email: gpguser1@localhost
+#        gpg_user_passphrase: Abcd1234
+
     - name: Include role 'ansible-role-gpg'
       ansible.builtin.include_role:
         name: ansible-role-gpg
+      vars:
+        gpp_install: false
+        gpg_generate_key: false
+        gpg_import_seckey: true
+        gpg_import_pubkey: false
+        # private key import
+        gpg_user_name: gpguser2
+        gpg_user_email: gpguser3@localhost
+        gpg_seckey: gpguser3.sec
+
+    - name: Include role 'ansible-role-gpg'
+      ansible.builtin.include_role:
+        name: ansible-role-gpg
+      vars:
+        gpp_install: false
+        gpg_generate_key: false
+        gpg_import_seckey: false
+        gpg_import_pubkey: true
+        # private key import
+        gpg_user_name: gpguser2
+        gpg_user_email: gpguser4@localhost
+        # public key import
+        gpg_recipient: gpguser4@localhost
+        gpg_pubkey: gpguser4.pub

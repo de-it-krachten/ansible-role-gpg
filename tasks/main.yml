@@ -7,8 +7,19 @@
 - name: Install GPG
   ansible.builtin.include_tasks:
     file: install.yml
+  when: gpg_install | bool
 
-- name: Create/import GPG keys
+- name: Create keypair
   ansible.builtin.include_tasks:
-    file: key.yml
-  when: gpg_user_name is defined and gpg_user_name | length > 0
+    file: generate-keypair.yml
+  when: gpg_generate_key | bool
+
+- name: Import private key
+  ansible.builtin.include_tasks:
+    file: import-seckey.yml
+  when: gpg_import_seckey | bool
+
+- name: Import public key
+  ansible.builtin.include_tasks:
+    file: import-pubkey.yml
+  when: gpg_import_pubkey | bool

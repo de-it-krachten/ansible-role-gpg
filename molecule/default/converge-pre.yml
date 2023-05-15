@@ -1,0 +1,12 @@
+---
+
+- name: Converge pre
+  hosts: all
+  become: "yes"
+  tasks:
+    - name: Create user 'gpguser1'
+      ansible.builtin.user:
+        name: gpguser1
+    - name: Create user 'gpguser2'
+      ansible.builtin.user:
+        name: gpguser2

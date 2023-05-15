@@ -3,19 +3,15 @@
 # GPG home directory
 # gpg_home: $HOME/gnupg
 
+# Steps/phases to execute
+gpg_install: true
+gpg_generate_key: false
+gpg_import_seckey: false
+gpg_import_pubkey: false
+
+# Default GNUPG home
+gpg_home_default: "{{ ansible_local['users_ext'][gpg_user_name]['home'] }}/.gnupg"
+
 # List of packages
 gpg_packages:
   - gpg
-
-# Key settings
-gpg_userkey:
-  key:
-    type: "RSA"
-    length: "4096"
-  subkey:
-    type: "RSA"
-    length: "2048"
-  name:
-    real: "{{ gpg_user_realname }}"
-    comment: "{{ gpg_user_comment }}"
-    email: "{{ gpg_user_email }}"
