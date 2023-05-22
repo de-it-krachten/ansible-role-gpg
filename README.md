@@ -85,19 +85,19 @@ gpg_packages:
     - deitkrachten.facts
   tasks:
 
-#    - name: Include role 'gpg'
-#      ansible.builtin.include_role:
-#        name: gpg
-#      vars:
-#        gpg_install: true
-#        gpg_generate_key: true
-#        gpg_import_seckey: false
-#        gpg_import_pubkey: false
-#        gpg_user_name: gpguser1
-#        gpg_user_realname: gpguser1
-#        gpg_user_comment: gpguser1
-#        gpg_user_email: gpguser1@localhost
-#        gpg_user_passphrase: Abcd1234
+    - name: Include role 'gpg'
+      ansible.builtin.include_role:
+        name: gpg
+      vars:
+        gpg_install: true
+        gpg_generate_key: true
+        gpg_import_seckey: false
+        gpg_import_pubkey: false
+        gpg_user_name: gpguser1
+        gpg_user_realname: gpguser1
+        gpg_user_comment: gpguser1
+        gpg_user_email: gpguser1@localhost
+        gpg_user_passphrase: Abcd1234
 
     - name: Include role 'gpg'
       ansible.builtin.include_role:

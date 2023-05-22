@@ -23,6 +23,8 @@
     set -o pipefail
     gpg --show-keys --with-colons {{ gpg_home | default(gpg_home_default) }}/{{ gpg_pubkey }} | \
     awk -F':' '$1=="pub" {print $5}'
+  args:
+    executable: /bin/bash
   changed_when: false
   become: yes
   become_user: "{{ gpg_user_name }}"
