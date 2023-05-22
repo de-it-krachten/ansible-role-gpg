@@ -1,0 +1,53 @@
+---
+
+- name: Assertions
+  ansible.builtin.assert:
+    that:
+      - gpg_user_name is defined and gpg_user_name | length > 0
+      - gpg_user_realname is defined and gpg_user_realname | length > 0
+      - gpg_user_comment is defined and gpg_user_comment | length > 0
+      - gpg_user_email is defined and gpg_user_email | length > 0
+
+- name: Set-up user
+  ansible.builtin.include_tasks:
+    file: setup-user.yml
+
+- name: Get all GPG keys
+  ansible.builtin.command: gpg --list-keys
+  changed_when: false
+  become: yes
+  become_user: "{{ gpg_user_name }}"
+  register: _gpg_keys
+  environment:
+    GNUPGHOME: "{{ gpg_home | default(gpg_home_default) }}"
+
+- name: Create GPG key
+  become: yes
+  become_user: "{{ gpg_user_name }}"
+  when:
+    - gpg_user_key is undefined
+    - gpg_user_email not in _gpg_keys.stdout
+  environment:
+    GNUPGHOME: "{{ gpg_home | default(gpg_home_default) }}"
+  block:
+
+    - name: Create GPG input file
+      ansible.builtin.template:
+        src: templates/key-input.j2
+        dest: "{{ gpg_home | default(gpg_home_default) }}/.key.input"
+        mode: "0600"
+
+    - name: Create GPG key
+      ansible.builtin.command:
+        # cmd: gpg --batch --generate-key {{ gpg_home }}/.key.input
+        cmd: gpg --batch --gen-key {{ gpg_home | default(gpg_home_default) }}/.key.input
+      changed_when: yes
+
+    - name: Delete GPG input file
+      ansible.builtin.file:
+        path: "{{ gpg_home | default(gpg_home_default) }}/.key.input"
+        state: absent
+
+- name: Set trust
+  ansible.builtin.include_tasks:
+    file: set-trust.yml

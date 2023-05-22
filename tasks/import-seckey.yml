@@ -1,0 +1,66 @@
+---
+
+- name: Assertions
+  ansible.builtin.assert:
+    that:
+      - gpg_user_name is defined and gpg_user_name | length > 0
+      - gpg_seckey is defined
+
+- name: Set-up user
+  ansible.builtin.include_tasks:
+    file: setup-user.yml
+
+- name: Copy private key
+  ansible.builtin.copy:
+    src: "{{ gpg_seckey }}"
+    dest: "{{ gpg_home | default(gpg_home_default) }}/{{ gpg_seckey }}"
+    mode: "0600"
+  become: yes
+  become_user: "{{ gpg_user_name }}"
+
+- name: Get key id from file
+  ansible.builtin.shell: |
+    set -o pipefail
+    gpg --show-keys --with-colons {{ gpg_home | default(gpg_home_default) }}/{{ gpg_seckey }} | \
+    awk -F':' '$1=="sec" {print $5}'
+  args:
+    executable: /bin/bash
+  changed_when: false
+  become: yes
+  become_user: "{{ gpg_user_name }}"
+  register: __key_id
+  environment:
+    GNUPGHOME: "{{ gpg_home | default(gpg_home_default) }}"
+
+- name: Get all GPG keys
+  ansible.builtin.command: gpg --list-secret-keys
+  changed_when: false
+  become: yes
+  become_user: "{{ gpg_user_name }}"
+  register: _gpg_keys
+  environment:
+    GNUPGHOME: "{{ gpg_home | default(gpg_home_default) }}"
+
+- name: Import GPG key
+  become: yes
+  become_user: "{{ gpg_user_name }}"
+  when: __key_id.stdout not in _gpg_keys.stdout
+  environment:
+    GNUPGHOME: "{{ gpg_home | default(gpg_home_default) }}"
+  block:
+
+    - name: Retrieve signature from key  # noqa no-free-form
+      ansible.builtin.shell: |
+        set -o pipefail
+        gpg --show-keys --with-colons {{ gpg_home | default(gpg_home_default) }}/{{ gpg_seckey }} | \
+          awk -F: '$1=="fpr" {print $10}' | head -1
+      args:
+        executable: /bin/bash
+      changed_when: false
+      register: __gpg_signature
+
+    - name: Import GPG keypair
+      ansible.builtin.command:
+        cmd: gpg --batch --import {{ gpg_home | default(gpg_home_default) }}/{{ gpg_seckey }}
+      changed_when: yes
+      when: __gpg_signature.stdout not in _gpg_keys.stdout

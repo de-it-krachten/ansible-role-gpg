@@ -1,0 +1,17 @@
+---
+
+- name: Assertions
+  ansible.builtin.assert:
+    that:
+      - gpg_user_name is defined and gpg_user_name | length > 0
+
+- name: Create GPG directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: "0700"
+  become: yes
+  become_user: "{{ gpg_user_name }}"
+  loop:
+    - "{{ gpg_home | default(gpg_home_default) }}"
+    - "{{ gpg_home | default(gpg_home_default) }}/private-keys-v1.d"

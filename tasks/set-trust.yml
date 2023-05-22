@@ -1,0 +1,35 @@
+---
+
+- name: Retrieve trust level  # noqa no-free-form
+  ansible.builtin.shell: |
+    set -o pipefail
+    key=`gpg --list-keys --with-colons {{ gpg_user_email }} | awk -F: '/pub:/ {print $5}'`
+    trustlevel=`gpg --export-ownertrust | grep $key | awk -F: '{print $2}'`
+    echo $trustlevel
+    [[ $trustlevel -eq 6 ]] && exit 0 || exit 1
+  args:
+    executable: /bin/bash
+  failed_when: false
+  changed_when: false
+  register: _gpg_trust
+  become: yes
+  become_user: "{{ gpg_user_name }}"
+  environment:
+    GNUPGHOME: "{{ gpg_home | default(gpg_home_default) }}"
+
+- name: Show current trust level
+  ansible.builtin.debug:
+    msg: "Trust level : {{ _gpg_trust.stdout }}"
+
+- name: Trust GPG key ultimately  # noqa no-free-form
+  ansible.builtin.shell: |
+    set -o pipefail
+    echo -e "5\ny\n" | gpg --batch --command-fd 0 --expert --edit-key {{ gpg_user_email }} trust
+  args:
+    executable: /bin/bash
+  become: yes
+  become_user: "{{ gpg_user_name }}"
+  changed_when: true
+  environment:
+    GNUPGHOME: "{{ gpg_home | default(gpg_home_default) }}"
+  when: _gpg_trust.rc != 0

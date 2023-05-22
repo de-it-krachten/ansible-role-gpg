@@ -1,13 +1,13 @@
 {% if gpg_user_passphrase is undefined or gpg_user_passphrase | length == 0 %}
 %no-protection
 {% endif %}
-Key-Type:      {{ gpg_userkey.key.type }}
-Key-Length:    {{ gpg_userkey.key.length }}
-Subkey-Type:   {{ gpg_userkey.subkey.type }}
-Subkey-Length: {{ gpg_userkey.subkey.length }}
-Name-Real:     {{ gpg_userkey.name.real }}
-Name-Comment:  {{ gpg_userkey.name.comment }}
-Name-Email:    {{ gpg_userkey.name.email }}
+Key-Type:      {{ gpg_userkey.key.type | default('RSA') }}
+Key-Length:    {{ gpg_userkey.key.length | default('4096') }}
+Subkey-Type:   {{ gpg_userkey.subkey.type | default('RSA') }}
+Subkey-Length: {{ gpg_userkey.subkey.length | default('2048') }}
+Name-Real:     {{ gpg_userkey.name.real | default(gpg_user_realname) }}
+Name-Comment:  {{ gpg_userkey.name.comment | default(gpg_user_comment) }}
+Name-Email:    {{ gpg_userkey.name.email | default(gpg_user_email) }}
 Expire-Date:   0
 {% if gpg_user_passphrase is defined and gpg_user_passphrase | length > 0 %}
 Passphrase:    {{ gpg_user_passphrase }}

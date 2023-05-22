@@ -14,15 +14,25 @@ dependencies:
     - deitkrachten.facts
   collections: []
 
+# Platforms
+platforms:
+  centos7:
+    ci: false
+    supported: false
+  ubuntu1804:
+    ci: false
+    supported: false
+
+# CI templates
+ci_templates:
+  converge.yml:
+    force: false
+
 # Molecule
 molecule:
   requirements:
     roles_extra: []
   converge:
-    vars:
-      gpg_user_name: root
-      gpg_user_realname: root
-      gpg_user_comment: "test key"
-      gpg_user_email: "root@localhost"
-      gpg_user_passphrase: "Abcd1234"
-      # gpg_user_key: "test"
+    pre: converge-pre.yml
+    roles:
+      - deitkrachten.facts
