@@ -1,3 +1,11 @@
+# [1.3.0](https://github.com/de-it-krachten/ansible-role-gpg/compare/v1.2.0...v1.3.0) (2023-05-22)
+
+
+### Features
+
+* Make role work on sub-functions ([e800986](https://github.com/de-it-krachten/ansible-role-gpg/commit/e800986ed6bca23d2054f225dafeb1d7cebc32e9))
+* Remove support for Ubuntu 18.04 and CentOS 7 ([91a10d9](https://github.com/de-it-krachten/ansible-role-gpg/commit/91a10d9e77fa0e463ce195bcb1bac46f1738c2c6))
+
 # [1.2.0](https://github.com/de-it-krachten/ansible-role-gpg/compare/v1.1.0...v1.2.0) (2023-05-06)
 
 
