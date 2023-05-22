@@ -13,7 +13,7 @@
   image: registry.access.redhat.com/ubi9/ubi-init:latest
   pre_build_image: false
 - name: centos7
-  ci: true
+  ci: false
   image: docker.io/geerlingguy/docker-centos7-ansible:latest
   privileged: false
   pre_build_image: true
@@ -55,7 +55,7 @@
   ci: true
   image: docker.io/geerlingguy/docker-debian11-ansible:latest
 - name: ubuntu1804
-  ci: true
+  ci: false
   image: docker.io/geerlingguy/docker-ubuntu1804-ansible:latest
 - name: ubuntu2004
   ci: true

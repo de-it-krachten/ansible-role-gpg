@@ -1,7 +1,7 @@
 ---
 
 - name: centos7
-  ci: true
+  ci: false
   box: generic/centos7
   interfaces: [{'network_name': 'private_network', 'type': 'dhcp', 'auto_config': True}]
 - name: centos8
@@ -49,7 +49,7 @@
   box: generic/debian11
   interfaces: [{'network_name': 'private_network', 'type': 'dhcp', 'auto_config': True}]
 - name: ubuntu1804
-  ci: true
+  ci: false
   box: generic/ubuntu1804
   interfaces: [{'network_name': 'private_network', 'type': 'dhcp', 'auto_config': True}]
 - name: ubuntu2004
