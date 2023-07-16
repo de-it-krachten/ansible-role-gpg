@@ -1,3 +1,15 @@
+# [1.4.0](https://github.com/de-it-krachten/ansible-role-gpg/compare/v1.3.0...v1.4.0) (2023-07-16)
+
+
+### Bug Fixes
+
+* Add support for full paths for import keys ([b1c27f4](https://github.com/de-it-krachten/ansible-role-gpg/commit/b1c27f439353d718f545ee3944400b6b6b8115f3))
+
+
+### Features
+
+* Change platform support to latest releases ([baf3e10](https://github.com/de-it-krachten/ansible-role-gpg/commit/baf3e10bc3d04e657993d57a6ee6e159d9ee5e26))
+
 # [1.3.0](https://github.com/de-it-krachten/ansible-role-gpg/compare/v1.2.0...v1.3.0) (2023-05-22)
 
 
