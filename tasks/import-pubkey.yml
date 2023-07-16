@@ -13,7 +13,7 @@
 - name: Copy public key file
   ansible.builtin.copy:
     src: "{{ gpg_pubkey }}"
-    dest: "{{ gpg_home | default(gpg_home_default) }}/{{ gpg_pubkey }}"
+    dest: "{{ gpg_home | default(gpg_home_default) }}/{{ gpg_pubkey | basename }}"
     mode: "0644"
   become: yes
   become_user: "{{ gpg_user_name }}"
@@ -21,7 +21,7 @@
 - name: Get key id from file
   ansible.builtin.shell: |
     set -o pipefail
-    gpg --show-keys --with-colons {{ gpg_home | default(gpg_home_default) }}/{{ gpg_pubkey }} | \
+    gpg --show-keys --with-colons {{ gpg_home | default(gpg_home_default) }}/{{ gpg_pubkey | basename }} | \
     awk -F':' '$1=="pub" {print $5}'
   args:
     executable: /bin/bash
@@ -42,7 +42,7 @@
     GNUPGHOME: "{{ gpg_home | default(gpg_home_default) }}"
 
 - name: Import GPG public key
-  ansible.builtin.command: gpg --import {{ gpg_home | default(gpg_home_default) }}/{{ gpg_pubkey }}
+  ansible.builtin.command: gpg --import {{ gpg_home | default(gpg_home_default) }}/{{ gpg_pubkey | basename }}
   become: yes
   become_user: "{{ gpg_user_name }}"
   changed_when: true

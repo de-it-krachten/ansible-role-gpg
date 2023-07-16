@@ -40,11 +40,11 @@
   ci: true
   server_type: cx11
   image: ubuntu-22.04
-- name: fedora36
-  ci: true
-  server_type: cx11
-  image: fedora-36
 - name: fedora37
   ci: true
   server_type: cx11
   image: fedora-37
+- name: fedora38
+  ci: true
+  server_type: cx11
+  image: fedora-38

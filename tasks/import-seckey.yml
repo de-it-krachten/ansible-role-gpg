@@ -13,7 +13,7 @@
 - name: Copy private key
   ansible.builtin.copy:
     src: "{{ gpg_seckey }}"
-    dest: "{{ gpg_home | default(gpg_home_default) }}/{{ gpg_seckey }}"
+    dest: "{{ gpg_home | default(gpg_home_default) }}/{{ gpg_seckey | basename }}"
     mode: "0600"
   become: yes
   become_user: "{{ gpg_user_name }}"
@@ -21,7 +21,7 @@
 - name: Get key id from file
   ansible.builtin.shell: |
     set -o pipefail
-    gpg --show-keys --with-colons {{ gpg_home | default(gpg_home_default) }}/{{ gpg_seckey }} | \
+    gpg --show-keys --with-colons {{ gpg_home | default(gpg_home_default) }}/{{ gpg_seckey | basename }} | \
     awk -F':' '$1=="sec" {print $5}'
   args:
     executable: /bin/bash
@@ -52,7 +52,7 @@
     - name: Retrieve signature from key  # noqa no-free-form
       ansible.builtin.shell: |
         set -o pipefail
-        gpg --show-keys --with-colons {{ gpg_home | default(gpg_home_default) }}/{{ gpg_seckey }} | \
+        gpg --show-keys --with-colons {{ gpg_home | default(gpg_home_default) }}/{{ gpg_seckey | basename }} | \
           awk -F: '$1=="fpr" {print $10}' | head -1
       args:
         executable: /bin/bash
@@ -61,6 +61,6 @@
 
     - name: Import GPG keypair
       ansible.builtin.command:
-        cmd: gpg --batch --import {{ gpg_home | default(gpg_home_default) }}/{{ gpg_seckey }}
+        cmd: gpg --batch --import {{ gpg_home | default(gpg_home_default) }}/{{ gpg_seckey | basename }}
       changed_when: yes
       when: __gpg_signature.stdout not in _gpg_keys.stdout
