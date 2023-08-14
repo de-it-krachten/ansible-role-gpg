@@ -1,3 +1,10 @@
+# [1.5.0](https://github.com/de-it-krachten/ansible-role-gpg/compare/v1.4.0...v1.5.0) (2023-08-14)
+
+
+### Features
+
+* Update supported platforms & CI ([76a8cde](https://github.com/de-it-krachten/ansible-role-gpg/commit/76a8cde510ad6005668bc37610de0375f0ee66e3))
+
 # [1.4.0](https://github.com/de-it-krachten/ansible-role-gpg/compare/v1.3.0...v1.4.0) (2023-07-16)
 
 
