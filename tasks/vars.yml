@@ -31,5 +31,4 @@
   loop: "{{ __platform_vars | dict2items }}"
   loop_control:
     loop_var: var1
-    label:
-      - "{{ var1.key }}: {{ var1.value }}"
+    label: "{{ item.key }}={{ item.value }}"
