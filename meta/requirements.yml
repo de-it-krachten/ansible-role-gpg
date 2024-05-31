@@ -1,6 +1,3 @@
 ---
 
-- name: deitkrachten.facts
-  src: https://github.com/de-it-krachten/ansible-role-facts.git
-  version: main
-  scm: git
+[]
