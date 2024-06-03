@@ -13,7 +13,7 @@ Installs gpg and manage keys
 - deitkrachten.facts
 
 #### Collections
-- community.general
+None
 
 ## Platforms
 
@@ -30,13 +30,13 @@ Supported platforms
 - AlmaLinux 9
 - SUSE Linux Enterprise 15<sup>1</sup>
 - openSUSE Leap 15
-- Debian 10 (Buster)<sup>1</sup>
 - Debian 11 (Bullseye)
 - Debian 12 (Bookworm)
 - Ubuntu 20.04 LTS
 - Ubuntu 22.04 LTS
-- Fedora 37
-- Fedora 38
+- Ubuntu 24.04 LTS
+- Fedora 39
+- Fedora 40
 
 Note:
 <sup>1</sup> : no automated testing is performed on these platforms
@@ -78,14 +78,12 @@ gpg_packages:
 - name: sample playbook for role 'gpg' pre playbook
   ansible.builtin.import_playbook: converge-pre.yml
   when: molecule_converge_pre is undefined or molecule_converge_pre | bool
-
 - name: sample playbook for role 'gpg'
   hosts: all
-  become: "yes"
+  become: 'yes'
   roles:
     - deitkrachten.facts
   tasks:
-
     - name: Include role 'gpg'
       ansible.builtin.include_role:
         name: gpg
@@ -99,7 +97,6 @@ gpg_packages:
         gpg_user_comment: gpguser1
         gpg_user_email: gpguser1@localhost
         gpg_user_passphrase: Abcd1234
-
     - name: Include role 'gpg'
       ansible.builtin.include_role:
         name: gpg
@@ -108,11 +105,9 @@ gpg_packages:
         gpg_generate_key: false
         gpg_import_seckey: true
         gpg_import_pubkey: false
-        # private key import
         gpg_user_name: gpguser2
         gpg_user_email: gpguser3@localhost
         gpg_seckey: gpguser3.sec
-
     - name: Include role 'gpg'
       ansible.builtin.include_role:
         name: gpg
@@ -121,10 +116,8 @@ gpg_packages:
         gpg_generate_key: false
         gpg_import_seckey: false
         gpg_import_pubkey: true
-        # private key import
         gpg_user_name: gpguser2
         gpg_user_email: gpguser4@localhost
-        # public key import
         gpg_recipient: gpguser4@localhost
         gpg_pubkey: gpguser4.pub
 </pre></code>
