@@ -1,3 +1,10 @@
+# [1.6.0](https://github.com/de-it-krachten/ansible-role-gpg/compare/v1.5.1...v1.6.0) (2024-06-03)
+
+
+### Features
+
+* Add support for Ubuntu 24.04 LTS + Fedora 40 ([508e9d3](https://github.com/de-it-krachten/ansible-role-gpg/commit/508e9d3fe0719924eea48dc5773f504ddd2adb26))
+
 ## [1.5.1](https://github.com/de-it-krachten/ansible-role-gpg/compare/v1.5.0...v1.5.1) (2023-09-08)
 
 
