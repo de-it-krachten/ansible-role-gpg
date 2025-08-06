@@ -1,3 +1,14 @@
+# [1.8.0](https://github.com/de-it-krachten/ansible-role-gpg/compare/v1.7.0...v1.8.0) (2025-08-06)
+
+
+### Features
+
+* Add support for AlmaLinux 10 ([aeaedbf](https://github.com/de-it-krachten/ansible-role-gpg/commit/aeaedbf12499580ed568a7e52b605ca23dc575d3))
+* Add support for Debian 13 (Trixie) ([35e2917](https://github.com/de-it-krachten/ansible-role-gpg/commit/35e29178309a7b62e4583765c462e83d3d2bbbca))
+* Add support for OracleLinux 10 ([47b175f](https://github.com/de-it-krachten/ansible-role-gpg/commit/47b175f3b10879c238b0756abe9a26d5a06430f9))
+* Add support for Red Hat Enterprise Linux 10 ([e8da6d4](https://github.com/de-it-krachten/ansible-role-gpg/commit/e8da6d4815c3994851c67944c9a94f3c08900035))
+* Add support for RockyLinux 10 ([992426a](https://github.com/de-it-krachten/ansible-role-gpg/commit/992426a6c438652ad4c93baa790cfcf4c179962f))
+
 # [1.7.0](https://github.com/de-it-krachten/ansible-role-gpg/compare/v1.6.0...v1.7.0) (2024-12-29)
 
 
