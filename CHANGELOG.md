@@ -1,3 +1,13 @@
+# [1.9.0](https://github.com/de-it-krachten/ansible-role-gpg/compare/v1.8.0...v1.9.0) (2026-03-15)
+
+
+### Features
+
+* Added support for Fedora 43 ([f846240](https://github.com/de-it-krachten/ansible-role-gpg/commit/f846240ba8529b437f7767a389d2a42c31e3b314))
+* Drop support for Fedora 41 ([bb71b3c](https://github.com/de-it-krachten/ansible-role-gpg/commit/bb71b3c60e4b4bde121591f700daf7fb2c2e4e03))
+* Drop support for openSUSE Leap 15 ([cc25153](https://github.com/de-it-krachten/ansible-role-gpg/commit/cc25153dff4e1bb3a323b326aafb3a49147ab12f))
+* Drop support for SUSE Linux Enterprise 15 ([3a04a00](https://github.com/de-it-krachten/ansible-role-gpg/commit/3a04a00e5953ceb53c2461ad10ab47a0e4e19ab4))
+
 # [1.8.0](https://github.com/de-it-krachten/ansible-role-gpg/compare/v1.7.0...v1.8.0) (2025-08-06)
 
 
