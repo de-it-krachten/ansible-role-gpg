@@ -8,6 +8,12 @@ generic:
     Installs gpg and manage keys
   collections: []
 
+# Supported platforms
+platforms:
+  ubuntu2004:
+    supported: true
+    ci: true
+
 # Dependencies
 dependencies:
   roles:
@@ -15,14 +21,6 @@ dependencies:
   collections: []
 
 # Platforms
-platforms:
-  centos7:
-    ci: false
-    supported: false
-  ubuntu1804:
-    ci: false
-    supported: false
-
 # CI templates
 ci_templates:
   converge.yml:
