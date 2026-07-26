@@ -1,3 +1,17 @@
+# [1.10.0](https://github.com/de-it-krachten/ansible-role-gpg/compare/v1.9.0...v1.10.0) (2026-07-26)
+
+
+### Bug Fixes
+
+* Standarize vars.yml ([97ae1bc](https://github.com/de-it-krachten/ansible-role-gpg/commit/97ae1bc58482b27f69be064658caf3337e2dce76))
+
+
+### Features
+
+* Added support for Fedora 44 ([6cf4995](https://github.com/de-it-krachten/ansible-role-gpg/commit/6cf4995894f24239aa1b928add1118dfc575716c))
+* Added support for Ubuntu 26.04 LTS ([913c3fc](https://github.com/de-it-krachten/ansible-role-gpg/commit/913c3fc3045ae1a8708fc018e747c9f986831456))
+* Drop support for Fedora 42 ([bdaa477](https://github.com/de-it-krachten/ansible-role-gpg/commit/bdaa477ed588b1df1c8b526cebf86970faff8d75))
+
 # [1.9.0](https://github.com/de-it-krachten/ansible-role-gpg/compare/v1.8.0...v1.9.0) (2026-03-15)
 
 
