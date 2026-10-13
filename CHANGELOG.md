@@ -1,3 +1,10 @@
+# [1.11.0](https://github.com/de-it-krachten/ansible-role-gpg/compare/v1.10.0...v1.11.0) (2026-10-13)
+
+
+### Features
+
+* Drop support for Debian 11 (Bullseye) ([ef263e6](https://github.com/de-it-krachten/ansible-role-gpg/commit/ef263e6d1b78a0b51120f1a41d9f241cb19f4871))
+
 # [1.10.0](https://github.com/de-it-krachten/ansible-role-gpg/compare/v1.9.0...v1.10.0) (2026-07-26)
 
 
